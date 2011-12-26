@@ -1,0 +1,11 @@
+#JSGF V1.0
+
+grammar comando;
+
+public <comandoBasico> = <comando>;
+
+<comando> = [ <acao> | <quantidade> ]  ;
+
+<acao> = /1/ back |/2/ go |/1/ stop |/1/ again |/1/ turn ( left | right );
+
+<quantidade> =  (one | two | three | four | five | six | seven | eight | nine | zero | oh | nil ) * ;
