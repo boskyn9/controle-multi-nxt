@@ -15,28 +15,16 @@ import synthesizer.Speaker
  * Time: 00:54
  * To change this template use File | Settings | File Templates.
  */
-class ControlOfVoice{
+class ControlOfVoice {
 
     Speaker speaker = Speaker.getInstance()
-    
-    static void main(def args){
-        // TODO adicionar criação de cenario.
-        
-        //        NxtContext.setLocation(10, 10);
-        //        NxtContext.setStartDirection(5);
-        //        NxtContext.setStartPosition(100, 240);
-        //        NxtContext.useObstacle(NxtContext.box);
-        
-        new ControlOfVoice()
-    }
-
     def actions = new Actions()
+    def recognizer
 
-    ControlOfVoice(){
+    ControlOfVoice(robot,gear){
         def cm = new ConfigurationManager(this.class.getResource("gram/controle.config.xml"));
 
-
-        def recognizer = (Recognizer) cm.lookup("recognizer");
+        recognizer = (Recognizer) cm.lookup("recognizer");
         recognizer.allocate();
 
         def microphone = (Microphone) cm.lookup("microphone");
@@ -47,19 +35,14 @@ class ControlOfVoice{
         }
 
         println "The system began!"
-        start(recognizer)
+        start(robot,gear)
+        
     }
 
-    def start(recognizer){
-        NxtRobot robot = new NxtRobot()
-        Gear gear = new Gear()
-        robot.addPart(gear)
-        
+    def start(robot,gear){
         speaker.say("The system began!",null)
         
-        // TODO criar o robo adicionando sensores...
-
-        while (true) {
+        while (true) {            
             def result = recognizer.recognize()
             if (result) {
                 def resultText = result.getBestFinalResultNoFiller();
@@ -67,17 +50,18 @@ class ControlOfVoice{
                 if (resultText) {
                     //println "Eu acho que é: $resultText \n"
                     ControleUtil.addAction(resultText, actions)
-                    ControleUtil.commands(actions, robot, gear); // chamar a excução de tarefas
+                    ControleUtil.commands(actions, robot, gear) // chamar a excução de tarefas
                     println actions.retunrListActions.call() // exibir a lista de ações a serem executadas
                     actions.clear.call() // limpando tarefas para recomeço.
                 } else
                 println "I did not hear what was said.\n"
-               // speaker.say('I did not hear what was said')
-
+                //                  speaker.say('I did not hear what was said')
+            
             } else {
                 println "I did not hear what was said.\n"
-                //speaker.say('I did not hear what was said')
+                //                speaker.say('I did not hear what was said')
             }
         }
     }
+
 }
