@@ -59,102 +59,119 @@ import java.io.*;
  * Because NxtRobot extends Actor all public methods of Actor are exposed. Some
  * of them are overridden and
  */
-public class NxtRobot
-{
+public class NxtRobot {
 
-  //
-  private final static int nbRotatableSprites = 360;
-  private static GameGrid gg;
-  private static Nxt nxt;
-  private ArrayList<Part> parts = new ArrayList<Part>();
+    //
+//    private final static int nbRotatableSprites = 360;
+    private static GameGrid gg;
+    private static Nxt nxt = null;
+    private String btName = null;
+    private ArrayList<Part> parts;
 
-  /**
-   * Creates a robot with its playground using defaults from NxtContext.
-   */
-  public NxtRobot()
-  {
-    gg = new GameGrid(700, 700, 1, null,
-      NxtContext.imageName, NxtContext.isNavigationBar, nbRotatableSprites);
-    nxt = new Nxt(NxtContext.startLocation, NxtContext.startDirection,gg,this);
-  }
-
-  /**
-   * Assembles the given part into the robot.
-   * If already connected, initialize the part.
-   * @param part the part to assemble
-   */
-  public void addPart(Part part)
-  {
-    synchronized (NxtRobot.class)
-    {
-      parts.add(part);
-      gg.addActor(part, nxt.getPartLocation(part), nxt.getDirection());
-      gg.setPaintOrder(getClass(), part.getClass());  // On top of obstacles
-      gg.setActOrder(getClass());  // First
+    /**
+     * Creates a robot with its playground using defaults from NxtContext.
+     */
+    public NxtRobot() {
+        this(null);
     }
-  }
 
-  /**
-   * Returns the instance reference of the GameGrid.
-   * @return the reference of the GameGrid
-   */
-  public static GameGrid getGameGrid()
-  {
-    return gg;
-  }
+    public NxtRobot(String btName) {
+        gg = GameGridManager.getInstance();
 
-  /**
-   * Returns the instance reference of the Nxt actor.
-   * @return the reference of the Nxt
-   */
-  public static Actor getNxt()
-  {
-    return nxt;
-  }
+        if (btName == null) {
+            this.btName = JOptionPane.showInputDialog("Enter Bluetooth Name").trim();
+        } else {
+            this.btName = btName;
+        }
 
-  /**
-   * Stops any motion and performs a cleanup of all parts.
-   */
-  public void exit()
-  {
-    synchronized (NxtRobot.class)
-    {
-      for (Part p : parts)
-      {
-        p.cleanup();
-      }
+        Location location = NxtContext.startLocation;
+        if (GameGridManager.robotList.size() > 0) {
+            NxtRobot lastNxt = GameGridManager.robotList.last();
+            if (lastNxt != null) {
+                location = lastNxt.getNxt().getLocation();
+                location.x += 50;
+            }
+        }
+
+        if (GameGridManager.robotList.add(this)) {
+            parts = new ArrayList<Part>();
+            nxt = new Nxt(location, NxtContext.startDirection, gg, this);
+        }
+
     }
-    gg.doPause();
-  }
 
-  public ArrayList<Part> getParts(){
-      return this.parts;
-  }
+    /**
+     * Assembles the given part into the robot.
+     * If already connected, initialize the part.
+     * @param part the part to assemble
+     */
+    public void addPart(Part part) {
+        synchronized (NxtRobot.class) {
+            if (parts != null) {
+                parts.add(part);
+                gg.addActor(part, nxt.getPartLocation(part), nxt.getDirection());
+                gg.setPaintOrder(getClass(), part.getClass());  // On top of obstacles
+                gg.setActOrder(getClass());  // First
+            }
+        }
+    }
 
-  /**
-   * Returns the current library version.
-   * @return a string telling the current version
-   */
-  public static String getVersion()
-  {
-    return SharedConstants.VERSION;
-  }
+    /**
+     * Returns the instance reference of the GameGrid.
+     * @return the reference of the GameGrid
+     */
+    public static GameGrid getGameGrid() {
+        return gg;
+    }
 
-  protected static void fail(String message)
-  {
-    JOptionPane.showMessageDialog(null, message, "Fatal Error", JOptionPane.ERROR_MESSAGE);
-    System.exit(0);
-  }
-  
-  /**
-  * Resets Nxt to start location/direction.
-  */
-  public void reset()
-  {
-    Actor nxt = getNxt();
-    nxt.reset();
-    nxt.setLocation(nxt.getLocationStart());
-    nxt.setDirection(nxt.getDirectionStart());
-  }
+    /**
+     * Returns the instance reference of the Nxt actor.
+     * @return the reference of the Nxt
+     */
+    public static Actor getNxt() {
+        return nxt;
+    }
+
+    /**
+     * Stops any motion and performs a cleanup of all parts.
+     */
+    public void exit() {
+        synchronized (NxtRobot.class) {
+            for (Part p : parts) {
+                p.cleanup();
+            }
+        }
+        gg.doPause();
+    }
+
+    public ArrayList<Part> getParts() {
+        return this.parts;
+    }
+
+    public String getBtName() {
+        return btName;
+    }
+
+    /**
+     * Returns the current library version.
+     * @return a string telling the current version
+     */
+    public static String getVersion() {
+        return SharedConstants.VERSION;
+    }
+
+    protected static void fail(String message) {
+        JOptionPane.showMessageDialog(null, message, "Fatal Error", JOptionPane.ERROR_MESSAGE);
+        System.exit(0);
+    }
+
+    /**
+     * Resets Nxt to start location/direction.
+     */
+    public void reset() {
+        Actor nxt = getNxt();
+        nxt.reset();
+        nxt.setLocation(nxt.getLocationStart());
+        nxt.setDirection(nxt.getDirectionStart());
+    }
 }
-

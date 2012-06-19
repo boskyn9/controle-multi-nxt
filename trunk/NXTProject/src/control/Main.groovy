@@ -15,17 +15,26 @@ class Main {
     
     static void main(def args){
         Speaker speaker = Speaker.getInstance()
-        NxtRobot robot = new NxtRobot()
+        
+        NxtRobot robot = new NxtRobot()        
         Gear gear = new Gear()
         robot.addPart(gear)
         TouchSensor ts = new TouchSensor(SensorPort.S3);
         robot.addPart(ts);        
         
+        
+        NxtRobot robot2 = new NxtRobot()        
+        Gear gear2 = new Gear()
+        robot2.addPart(gear2)
+        TouchSensor ts2 = new TouchSensor(SensorPort.S3);
+        robot2.addPart(ts2);
+        
         Thread.start {
             while(true){
                 if(ts.isPressed()){
                     speaker.say('stop!')
-                    gear.stop()                    
+                    gear.stop()
+                    Thread.sleep(10000)
                 }                
             }            
         }
