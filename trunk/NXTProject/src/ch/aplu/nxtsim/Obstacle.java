@@ -11,8 +11,7 @@ It is Open Source Free Software, so you may
 However the use of the code is entirely your responsibility.
 
 Author: Aegidius Pluess, www.aplu.ch
-*/
-
+ */
 package ch.aplu.nxtsim;
 
 import ch.aplu.jgamegrid.*;
@@ -20,15 +19,14 @@ import ch.aplu.jgamegrid.*;
 /**
  * Class to represent an obstacle detected by a touch sensor.
  */
-public class Obstacle extends Actor
-{
-  /**
-   * Creates an obstacle from given image file.
-   * @param imageName the image to be uses as obstacle
-   */
-  public Obstacle(String imageName)
-  {
-    super(imageName);
-    setCollisionImage();
-  }
+public class Obstacle extends Actor {
+
+    /**
+     * Creates an obstacle from given image file.
+     * @param imageName the image to be uses as obstacle
+     */
+    public Obstacle(String imageName) {
+        super(imageName);
+        setCollisionImage();
+    }
 }

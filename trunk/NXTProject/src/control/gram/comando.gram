@@ -2,11 +2,9 @@
 
 grammar comando;
 
-public <comandoBasico> =  <acao> | <construcao> ;
+public <comandoBasico> =  [ <robo> ] <acao> ;
 
-<construcao> = <sensores> | build;
-<sensores> = ( touch | light | sound ) sensor ;
 
+<robo> = robot <quantidade> ;
 <acao> = /2/ back |/2/ forward |/1/ stop |/1/ turn ( left | right ) |/1/ speed ( less | plus ) |/1/ exit now |/1/ clear |/1/ left |/1/ right;
-
 <quantidade> =  ( one | two | three | four | five | six | seven | eight | nine | zero | oh | nil )* ;

@@ -8,6 +8,8 @@ package synthesizer;
  */
 import com.sun.speech.freetts.jsapi.FreeTTSEngineCentral;
 
+import de.dfki.lt.freetts.en.us.MbrolaVoice;
+import de.dfki.lt.freetts.mbrola.MbrolaAudioOutput;
 import java.util.Locale;
 
 import java.util.logging.Level;
@@ -34,6 +36,7 @@ public class Speaker {
                     null,          // running
                     null);         // voice
                 
+//            System.setProperty("mbrola.base", ""); 
                 
                 //Synthesizer synthesizer = Central.createSynthesizer(desc);
                 FreeTTSEngineCentral central = new FreeTTSEngineCentral();
@@ -62,14 +65,15 @@ public class Speaker {
 	    }
 
 	    synthesizer.allocate();
-	    synthesizer.resume();
-
+	    synthesizer.resume();            
+            
             desc = (SynthesizerModeDesc) synthesizer.getEngineModeDesc();
             Voice[] voices = desc.getVoices();
             Voice voice = null;
             for (int i = 0; i < voices.length; i++) {
                 if (voices[i].getName().equals(voiceName)) {
                     voice = voices[i];
+                    System.out.println(voice);
                     break;
                 }
             }
@@ -99,10 +103,10 @@ public class Speaker {
     public void say(String text, Boolean plain){
         try {
             if(plain!=null && plain){
-                System.out.println("if");
+//                System.out.println("if");
                 synthesizer.speakPlainText(text, null);
             }else{
-                System.out.println("else");
+//                System.out.println("else");
                 synthesizer.speak(text,null);
             }
 //            synthesizer.waitEngineState(Synthesizer.QUEUE_EMPTY);            
@@ -115,16 +119,16 @@ public class Speaker {
     public static void main(String[] args) {
         Speaker s = Speaker.getInstance();
         s.say("The system began", null);
-        Speaker s1 = Speaker.getInstance();
+//        Speaker s1 = Speaker.getInstance();
         s.say("now", null);
-        s1.say("now, i don't", null);
+//        s1.say("now, i don't", null);
         
-        Speaker s2 = new Speaker();
-        s2.say("it don't working");
+//        Speaker s2 = new Speaker();
+//        s2.say("it don't working");
         
-        s.say("but, i work");
-        s1.say("i work to");
-        s2.say("and,i...");
+//        s.say("but, i work");
+//        s1.say("i work to");
+//        s2.say("and,i...");
         
     }
 }

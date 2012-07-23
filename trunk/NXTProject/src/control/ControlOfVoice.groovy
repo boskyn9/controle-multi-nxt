@@ -21,7 +21,7 @@ class ControlOfVoice {
     def actions = new Actions()
     def recognizer
 
-    ControlOfVoice(robot,gear){
+    ControlOfVoice(gear){
         def cm = new ConfigurationManager(this.class.getResource("gram/controle.config.xml"));
 
         recognizer = (Recognizer) cm.lookup("recognizer");
@@ -35,11 +35,11 @@ class ControlOfVoice {
         }
 
         println "The system began!"
-        start(robot,gear)
+        start(gear)
         
     }
 
-    def start(robot,gear){
+    def start(gear){
         speaker.say("The system began!",null)
         
         while (true) {            
@@ -48,17 +48,17 @@ class ControlOfVoice {
                 def resultText = result.getBestFinalResultNoFiller();
                 def listResutl = result.getResultTokens()
                 if (resultText) {
-                    //println "Eu acho que é: $resultText \n"
+                    println "Eu acho que é: $resultText \n"
                     ControleUtil.addAction(resultText, actions)
-                    ControleUtil.commands(actions, robot, gear) // chamar a excução de tarefas
+                    ControleUtil.commands(actions, gear) // chamar a excução de tarefas
                     println actions.retunrListActions.call() // exibir a lista de ações a serem executadas
                     actions.clear.call() // limpando tarefas para recomeço.
                 } else
-                println "I did not hear what was said.\n"
+                println "I did not hear what was said.\n ResultText $resultText"
                 //                  speaker.say('I did not hear what was said')
             
             } else {
-                println "I did not hear what was said.\n"
+                println "I did not hear what was said.\n Result $result"
                 //                speaker.say('I did not hear what was said')
             }
         }

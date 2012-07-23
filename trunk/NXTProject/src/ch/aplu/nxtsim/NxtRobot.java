@@ -84,18 +84,18 @@ public class NxtRobot {
             this.btName = btName;
         }
 
-        Location location = NxtContext.startLocation;
-        if (GameGridManager.robotList.size() > 0) {
-            NxtRobot lastNxt = GameGridManager.robotList.last();
-            if (lastNxt != null) {
-                location = lastNxt.getNxt().getLocation();
-                location.x += 50;
-            }
-        }
+//        Location location = NxtContext.startLocation;
+//        if (GameGridManager.robotList.size() > 0) {
+//            NxtRobot lastNxt = GameGridManager.robotList.last();
+//            if (lastNxt != null) {
+//                location = lastNxt.getNxt().getLocation();
+//                location.x += 50;
+//            }
+//        }
 
         if (GameGridManager.robotList.add(this)) {
             parts = new ArrayList<Part>();
-            nxt = new Nxt(location, NxtContext.startDirection, gg, this);
+            nxt = new Nxt(gg.getRandomEmptyLocation(), NxtContext.startDirection, gg, this);
         }
 
     }
@@ -128,7 +128,7 @@ public class NxtRobot {
      * Returns the instance reference of the Nxt actor.
      * @return the reference of the Nxt
      */
-    public static Actor getNxt() {
+    public Actor getNxt() {
         return nxt;
     }
 
