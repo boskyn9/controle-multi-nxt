@@ -2,6 +2,8 @@ package ch.aplu.nxtsim;
 
 import ch.aplu.jgamegrid.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.io.PrintWriter;
@@ -49,7 +51,7 @@ public class Nxt extends Actor
     double dphi;
     private GameGrid gg;
     private NxtRobot robot;
-
+    
     public Nxt(Location startLocation, double startDirection, GameGrid gameGrid, NxtRobot robot) {
         super(true, "sprites/nxtrobot.gif");  // Rotatable
         this.gg = gameGrid;
@@ -62,7 +64,8 @@ public class Nxt extends Actor
 
         addActorCollisionListener(this);
         setCollisionCircle(collisionCenter, collisionRadius);
-
+        
+        
         gg.addExitListener(this);
         gg.show();
         if (NxtContext.isRun) {
@@ -77,8 +80,7 @@ public class Nxt extends Actor
     }
 
     public int collide(Actor actor1, Actor actor2) {
-        title = "Robot-Obstacle Collision";
-        gg.setTitle(title);
+        System.out.println("collide");                
         return 0;
     }
 
@@ -86,7 +88,7 @@ public class Nxt extends Actor
         robot.exit();
         return true;
     }
-
+    
     private void exec(Class appClass, GameGrid gg, String methodName) {
         Method execMethod = null;
 
@@ -131,6 +133,7 @@ public class Nxt extends Actor
                 title = "";
                 gg.setTitle("");
             }
+            
             // Add new obstacles as collision actor
             int nb = NxtContext.obstacles.size();
             if (nb > nbObstacles) {
@@ -147,7 +150,7 @@ public class Nxt extends Actor
                 }
             }
 
-            Gear gear = (Gear) (gg.getOneActor(Gear.class));
+            Gear gear = (Gear) (gg.getOneActorAt(getLocation(),Gear.class));
             ArrayList<Actor> motors = gg.getActors(Motor.class);
             if (gear != null && !motors.isEmpty()) {
                 robot.fail("Error constructing NxtRobot" + "\nCannot add both Gear and Motor." + "\nApplication will terminate.");
@@ -155,6 +158,17 @@ public class Nxt extends Actor
 
             // ------------------ We have a gear --------------------
             if (gear != null) {
+                
+                if(isNearBorder()){
+                    try {
+                        System.out.println("border");
+                        gear.stop();
+                        Thread.sleep(1000l);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Nxt.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
                 int speed = gear.getSpeed();
                 if (currentSpeed != speed) {
                     setCurrentSpeed(speed);

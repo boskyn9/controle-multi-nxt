@@ -110,14 +110,14 @@ static def addAction(opt, actions) {
 }
 
 
-static void commands (Actions actions, robot, gear) {
+static void commands (Actions actions, gear) {
     actions.toArray.call().each { action ->
-        make(robot, gear, action, actions)
+        make(gear, action)
     }
 }
 
 
-private static void make(robot ,Gear gear, action,Actions actions){
+private static void make(Gear gear, action){
     if(action){
         println action
         Thread.start {
@@ -157,7 +157,6 @@ private static void make(robot ,Gear gear, action,Actions actions){
                     actions.clear.call()
                     break
                 case Actions.EXIT_NOW:
-                    robot.exit()
                     System.exit(0)
                     break
                 default:
