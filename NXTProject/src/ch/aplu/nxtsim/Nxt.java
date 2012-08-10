@@ -79,11 +79,13 @@ public class Nxt extends Actor
         exec(appClass, gg, "_init");
     }
 
+    @Override
     public int collide(Actor actor1, Actor actor2) {
         System.out.println("collide");                
         return 0;
     }
 
+    @Override
     public boolean notifyExit() {
         robot.exit();
         return true;
