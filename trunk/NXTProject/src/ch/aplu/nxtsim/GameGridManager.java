@@ -23,7 +23,11 @@ public class GameGridManager {
         if (gg == null) {
             robotList = new NxtRobotList();
             
-            gg = new GameGrid(700, 700, 1, null,
+            // definir obstáculos
+            NxtContext.useObstacle("sprites/channel.gif", 400, 300);
+            
+            
+            gg = new GameGrid(800, 600, 1, null,
                     NxtContext.imageName, NxtContext.isNavigationBar, nbRotatableSprites);
 
             gg.setSimulationPeriod(SharedConstants.simulationPeriod);
@@ -39,6 +43,7 @@ public class GameGridManager {
                         NxtContext.obstacleLocations.get(i));
             }
         }
+        
 
         return gg;
     }

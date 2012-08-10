@@ -16,14 +16,14 @@ class Main {
     static void main(def args){
         Speaker speaker = Speaker.getInstance()
         
-        NxtRobot robot = new NxtRobot()        
+        NxtRobot robot = new NxtRobot("2")        
         Gear gear = new Gear()
         robot.addPart(gear)
 //        TouchSensor ts = new TouchSensor(SensorPort.S3)
 //        robot.addPart(ts);        
         
         
-        NxtRobot robot2 = new NxtRobot()        
+        NxtRobot robot2 = new NxtRobot("1")        
         Gear gear2 = new Gear()
         robot2.addPart(gear2)
 //        TouchSensor ts2 = new TouchSensor(SensorPort.S3)
@@ -44,21 +44,6 @@ class Main {
         
         
     }    
-        
-    static {     
-//        //cima
-//        NxtContext.useObstacle("sprites/bar0.gif", 200, 10);
-//        NxtContext.useObstacle("sprites/bar0.gif", 499, 10);
-//        // direita
-//        NxtContext.useObstacle("sprites/bar1.gif", 689, 220);
-//        NxtContext.useObstacle("sprites/bar1.gif", 689, 500);
-//        //baixo
-//        NxtContext.useObstacle("sprites/bar2.gif", 200, 689);
-//        NxtContext.useObstacle("sprites/bar2.gif", 499, 689);
-//        //esquerdo
-//        NxtContext.useObstacle("sprites/bar3.gif", 10, 200);
-//        NxtContext.useObstacle("sprites/bar3.gif", 10, 499);
-    }
-	
+   
 }
 
