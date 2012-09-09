@@ -6,8 +6,6 @@ package ch.aplu.nxtsim;
 
 import ch.aplu.jgamegrid.*;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -17,7 +15,7 @@ public class GameGridManager {
 
     private static GameGrid gg;
     private final static int nbRotatableSprites = 360;
-    public static NxtRobotList robotList;
+    public static NxtRobotList robotList;    
 
     public static GameGrid getInstance() {
         if (gg == null) {

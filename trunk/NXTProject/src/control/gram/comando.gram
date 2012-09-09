@@ -6,5 +6,5 @@ public <comandoBasico> =  [ <robo> ] <acao> ;
 
 
 <robo> = robot <quantidade> ;
-<acao> = /2/ back |/2/ forward |/1/ stop |/1/ turn ( left | right ) |/1/ speed ( less | plus ) |/1/ exit now |/1/ clear |/1/ left |/1/ right;
+<acao> = /2/ back |/10/ forward |/1/ stop |/1/ turn ( left | right ) |/5/ speed ( less | plus ) |/1/ exit now |/1/ clear |/1/ left |/1/ right;
 <quantidade> =  ( one | two | three | four | five | six | seven | eight | nine | zero | oh | nil )* ;

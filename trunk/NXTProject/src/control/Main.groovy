@@ -16,16 +16,20 @@ class Main {
     static void main(def args){
         Speaker speaker = Speaker.getInstance()
         
-        NxtRobot robot = new NxtRobot("2")        
+        NxtRobot robot = new NxtRobot('nxt1')        
         Gear gear = new Gear()
         robot.addPart(gear)
 //        TouchSensor ts = new TouchSensor(SensorPort.S3)
 //        robot.addPart(ts);        
         
         
-        NxtRobot robot2 = new NxtRobot("1")        
+        NxtRobot robot2 = new NxtRobot('nxt2')        
         Gear gear2 = new Gear()
         robot2.addPart(gear2)
+        
+//        NxtRobot robot3 = new NxtRobot('3')        
+//        Gear gear3 = new Gear()
+//        robot3.addPart(gear3)
 //        TouchSensor ts2 = new TouchSensor(SensorPort.S3)
 //        robot2.addPart(ts2);
         
@@ -38,6 +42,7 @@ class Main {
 //                }                
 //            }            
 //        }
+        
         
         new ControlOfVoice(gear)
         

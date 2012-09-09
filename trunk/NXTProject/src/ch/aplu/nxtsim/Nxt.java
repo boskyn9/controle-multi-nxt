@@ -2,15 +2,18 @@ package ch.aplu.nxtsim;
 
 import ch.aplu.jgamegrid.*;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
-import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +29,7 @@ public class Nxt extends Actor
      * Center of a circle to detect robot-obstacle collisions
      * (pixel coordinates relative to center of robot image, default: (-13, 0)).
      */
-    public static Point collisionCenter = new Point(-13, 0);
+    public static Point collisionCenter = new Point(0, 0);
     /**
      * Radius of a circle to detect robot-obstacle collisions
      * (in pixels, default: 20).
@@ -52,18 +55,24 @@ public class Nxt extends Actor
     private GameGrid gg;
     private NxtRobot robot;
     
+    
     public Nxt(Location startLocation, double startDirection, GameGrid gameGrid, NxtRobot robot) {
         super(true, "sprites/nxtrobot.gif");  // Rotatable
         this.gg = gameGrid;
         this.robot = robot;
         
         gg.addActor(this, startLocation, startDirection);
+                
+        this.getBackground().setFont(new Font ("TimesRoman", Font.BOLD, 12));
+        this.getBackground().setPaintColor(Color.BLACK);
+        
         pos = new GGVector(getLocation().x, getLocation().y); // Double coordinates
         
         wheelDistance = getHeight(0) - 10;
 
         addActorCollisionListener(this);
-        setCollisionCircle(collisionCenter, collisionRadius);
+//        setCollisionCircle(collisionCenter, collisionRadius);
+        setCollisionRectangle(collisionCenter, 40 , 40);
         
         
         gg.addExitListener(this);
@@ -130,11 +139,14 @@ public class Nxt extends Actor
     }
 
     public void act() {
+        
         synchronized (NxtRobot.class) {
             if (!title.equals("")) {
                 title = "";
                 gg.setTitle("");
             }
+                      
+            showbtName();            
             
             // Add new obstacles as collision actor
             int nb = NxtContext.obstacles.size();
@@ -371,7 +383,7 @@ public class Nxt extends Actor
                     setDirection(dir);
                 }
             }
-        }
+        }        
     }
 
     private void advance(int nbSteps) {
@@ -454,6 +466,21 @@ public class Nxt extends Actor
         int period = (int) (m * speed + n);
         gameGrid.setSimulationPeriod(period);
 //    System.out.println("new period: " + period);
+    }
+
+    private void showbtName() {
+        this.getBackground().clear();                       
+            
+            for (int i = 0; i < GameGridManager.robotList.size(); i++) {
+                NxtRobot robotnxt = GameGridManager.robotList.get(i);
+                if(robotnxt.getNxt()!=null && robotnxt.getNxt().getLocation()!=null){
+                    Point pt = gg.toPoint(robotnxt.getNxt().getLocation());            
+                    pt.x +=30;
+                    pt.y +=30;
+                    this.getBackground().drawText(robotnxt.getBtName(), pt);
+                }
+                
+            }
     }
 }
   // ---------------------- End of class Nxt ---------------------

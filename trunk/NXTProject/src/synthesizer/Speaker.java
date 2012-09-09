@@ -120,7 +120,7 @@ public class Speaker {
         Speaker s = Speaker.getInstance();
         s.say("The system began", null);
 //        Speaker s1 = Speaker.getInstance();
-        s.say("now", null);
+        s.say("speed more", null);
 //        s1.say("now, i don't", null);
         
 //        Speaker s2 = new Speaker();
