@@ -64,7 +64,7 @@ public class NxtRobot {
     //
 //    private final static int nbRotatableSprites = 360;
     private static GameGrid gg;
-    private static Nxt nxt = null;
+    private Nxt nxt = null;
     private String btName = null;
     private ArrayList<Part> parts;
 
@@ -83,15 +83,6 @@ public class NxtRobot {
         } else {
             this.btName = btName;
         }
-
-//        Location location = NxtContext.startLocation;
-//        if (GameGridManager.robotList.size() > 0) {
-//            NxtRobot lastNxt = GameGridManager.robotList.last();
-//            if (lastNxt != null) {
-//                location = lastNxt.getNxt().getLocation();
-//                location.x += 50;
-//            }
-//        }
 
         if (GameGridManager.robotList.add(this)) {
             parts = new ArrayList<Part>();
@@ -116,14 +107,7 @@ public class NxtRobot {
         }
     }
 
-    /**
-     * Returns the instance reference of the GameGrid.
-     * @return the reference of the GameGrid
-     */
-    public static GameGrid getGameGrid() {
-        return gg;
-    }
-
+    
     /**
      * Returns the instance reference of the Nxt actor.
      * @return the reference of the Nxt
@@ -144,7 +128,7 @@ public class NxtRobot {
         gg.doPause();
     }
 
-    public ArrayList<Part> getParts() {
+    protected ArrayList<Part> getParts() {
         return this.parts;
     }
 
