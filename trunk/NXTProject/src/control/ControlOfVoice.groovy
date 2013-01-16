@@ -34,12 +34,12 @@ class ControlOfVoice {
             System.exit(1);
         }
 
-        println "The system began!"
         start(gear)
         
     }
 
     def start(gear){
+        println "The system began!"
         speaker.say("The system began!",null)
         
         while (true) {            

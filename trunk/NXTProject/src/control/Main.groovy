@@ -24,7 +24,7 @@ class Main {
         
         
         NxtRobot robot2 = new NxtRobot('nxt2')        
-        Gear gear2 = new Gear()
+        Gear gear2 = new Gear()        
         robot2.addPart(gear2)
         
 //        NxtRobot robot3 = new NxtRobot('3')        
