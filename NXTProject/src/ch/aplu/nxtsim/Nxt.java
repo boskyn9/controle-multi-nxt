@@ -145,7 +145,9 @@ public class Nxt extends Actor
                 title = "";
                 gg.setTitle("");
             }
-                      
+            
+            
+            //exibir o label no simulador
             showbtName();            
             
             // Add new obstacles as collision actor
@@ -477,7 +479,7 @@ public class Nxt extends Actor
                     Point pt = gg.toPoint(robotnxt.getNxt().getLocation());            
                     pt.x +=30;
                     pt.y +=30;
-                    this.getBackground().drawText(robotnxt.getBtName(), pt);
+                    this.getBackground().drawText(String.format("%s [ %s ]", robotnxt.getBtName(),i) , pt);
                 }
                 
             }

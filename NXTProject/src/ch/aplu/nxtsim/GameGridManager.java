@@ -22,7 +22,7 @@ public class GameGridManager {
             robotList = new NxtRobotList();
             
             // definir obstáculos
-            NxtContext.useObstacle("sprites/channel.gif", 400, 300);
+            //NxtContext.useObstacle("sprites/channel.gif", 400, 300);
             
             
             gg = new GameGrid(800, 600, 1, null,
