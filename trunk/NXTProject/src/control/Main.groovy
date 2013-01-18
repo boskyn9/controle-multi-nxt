@@ -7,6 +7,8 @@ package control
 
 import ch.aplu.nxtsim.*
 import synthesizer.Speaker
+import java.lang.reflect.Field
+import ch.aplu.jgamegrid.GameGrid
 /**
  *
  * @author boskyn9
@@ -44,9 +46,19 @@ class Main {
 //        }
         
         
-        new ControlOfVoice(gear)
+        // get gear privates
+//        Field parts = NxtRobot.class.getDeclaredField('parts')
+//        parts.setAccessible(true)
+//        
+//        GameGridManager.robotList.each(){ nxt ->
+//            (parts.get(nxt)as List).each(){
+//                println it
+//            }
+//        }
         
         
+        
+        def control = new ControlOfVoice([gear,gear2])
         
     }    
    

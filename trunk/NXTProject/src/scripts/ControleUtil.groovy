@@ -48,8 +48,7 @@ static def numberByName(number){
 
 static def addAction(opt, actions) {
     Speaker speaker = Speaker.getInstance()
-    println "you said it: $opt. :S"    
-    speaker.say("you said it: $opt ?")
+    speaker.say("you said it: $opt ?", true)
     
     switch (opt) {
         case ~/^forward.*$/:
@@ -112,12 +111,19 @@ static def addAction(opt, actions) {
 
 static void commands (Actions actions, gear) {
     actions.toArray.call().each { action ->
-        make(gear, action)
+        println gear
+        if(gear instanceof Gear)
+            make(action, gear)
+        else{
+            gear.each(){
+                make(action, it)
+            }
+        }
     }
 }
 
 
-private static void make(Gear gear, action){
+private static void make(action,Gear gear){
     if(action){
         println action
         Thread.start {

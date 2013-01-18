@@ -9,7 +9,6 @@ import sun.awt.windows.ThemeReader
 import synthesizer.Speaker
 
 /**
- * Created by IntelliJ IDEA.
  * User: boskyn9
  * Date: 02/12/11
  * Time: 00:54
@@ -19,9 +18,14 @@ class ControlOfVoice {
 
     Speaker speaker = Speaker.getInstance()
     def actions = new Actions()
+    def gears = []
     def recognizer
 
-    ControlOfVoice(gear){
+    
+    
+    ControlOfVoice(gears){
+        this.gears = gears
+        
         def cm = new ConfigurationManager(this.class.getResource("gram/controle.config.xml"));
 
         recognizer = (Recognizer) cm.lookup("recognizer");
@@ -34,13 +38,16 @@ class ControlOfVoice {
             System.exit(1);
         }
 
-        start(gear)
+        start()
         
     }
 
-    def start(gear){
-        println "The system began!"
-        speaker.say("The system began!",null)
+    def start(){
+        speaker.say("The system began!",true)
+        println "gears - $gears"
+        
+        boolean toRobot = false
+        def gear
         
         while (true) {            
             def result = recognizer.recognize()
@@ -49,8 +56,21 @@ class ControlOfVoice {
                 def listResutl = result.getResultTokens()
                 if (resultText) {
                     println "Eu acho que é: $resultText \n"
-                    ControleUtil.addAction(resultText, actions)
-                    ControleUtil.commands(actions, gear) // chamar a excução de tarefas
+                    
+                    //TODO identificar a palavra "robot". Se a palevra for dita, siginifica que a operação será direcionado
+                    if(resultText.equals("robot")){
+                        toRobot = true
+                        //gear = ControleUtil.getGearFromRobot(resultText); //TODO deve ser criado o método
+                    }else if(resultText.equals("action")){
+                        toRobot = false                        
+                    }else if(!toRobot){
+                        ControleUtil.addAction(resultText, actions)
+                        ControleUtil.commands(actions, gear?:gears) // chamar a excução de tarefas
+                    }
+                    
+                    // TODO identificar a palavra "action". Está será a finalização da declaração do robot e o incio das ações para o mesmo.
+                    
+                    
                     println actions.retunrListActions.call() // exibir a lista de ações a serem executadas
                     actions.clear.call() // limpando tarefas para recomeço.
                 } else

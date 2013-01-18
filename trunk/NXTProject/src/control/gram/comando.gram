@@ -2,7 +2,7 @@
 
 grammar comando;
 
-public <comandoBasico> =  [ <robo> ] <acao> ;
+public <comandoBasico> =  [ <robo> action ] <acao> ;
 
 
 <robo> = robot <quantidade> ;
