@@ -47,7 +47,6 @@ class ControlOfVoice {
         println "gears - $gears"
         
         boolean toRobot = false
-        def gear
         
         while (true) {            
             def result = recognizer.recognize()
@@ -65,14 +64,14 @@ class ControlOfVoice {
                         toRobot = false                        
                     }else if(!toRobot){
                         ControleUtil.addAction(resultText, actions)
-                        ControleUtil.commands(actions, gear?:gears) // chamar a excução de tarefas
+                        ControleUtil.commands(actions, gears) // chamar a excução de tarefas
                     }
                     
                     // TODO identificar a palavra "action". Está será a finalização da declaração do robot e o incio das ações para o mesmo.
                     
                     
-                    println actions.retunrListActions.call() // exibir a lista de ações a serem executadas
-                    actions.clear.call() // limpando tarefas para recomeço.
+                    println actions.retunrListActions() // exibir a lista de ações a serem executadas
+                    actions.clear() // limpando tarefas para recomeço.
                 } else
                 println "I did not hear what was said.\n ResultText $resultText"
                 //                  speaker.say('I did not hear what was said')

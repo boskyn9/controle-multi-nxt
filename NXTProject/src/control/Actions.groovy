@@ -1,12 +1,5 @@
 package control
 
-/**
- * Created by IntelliJ IDEA.
- * User: boskyn9
- * Date: 03/12/11
- * Time: 00:27
- * To change this template use File | Settings | File Templates.
- */
 class Actions {
 
     public static final BACK = 'back'
@@ -36,11 +29,11 @@ class Actions {
         return listOfAction.poll()
     }
 
-    def clear= { ->
+    def clear(){
         listOfAction.clear()
     }
 
-    def retunrListActions= { ->
+    def retunrListActions(){
         listOfAction.toListString()
     }
 
@@ -48,7 +41,7 @@ class Actions {
         lastAction
     }
 
-    def toArray= { ->
+    def toArray() {
         listOfAction.toArray()
     }
 }
