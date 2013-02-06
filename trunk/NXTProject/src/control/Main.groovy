@@ -1,31 +1,28 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package control
 
 import ch.aplu.nxtsim.*
 import synthesizer.Speaker
 import java.lang.reflect.Field
 import ch.aplu.jgamegrid.GameGrid
+import scripts.RobotUtil
 /**
  *
  * @author boskyn9
  */
 class Main {
     
-    static void main(def args){
+    static void main(args){
+        
         Speaker speaker = Speaker.getInstance()
         
-        NxtRobot robot = new NxtRobot('nxt1')        
+        NxtRobot robot = new NxtRobot('bosco_nxt1')        
         Gear gear = new Gear()
         robot.addPart(gear)
 //        TouchSensor ts = new TouchSensor(SensorPort.S3)
 //        robot.addPart(ts);        
         
         
-        NxtRobot robot2 = new NxtRobot('nxt2')        
+        NxtRobot robot2 = new NxtRobot('bosco_nxt2')        
         Gear gear2 = new Gear()        
         robot2.addPart(gear2)
         
@@ -56,9 +53,7 @@ class Main {
 //            }
 //        }
         
-        
-        
-        def control = new ControlOfVoice([gear,gear2])
+        def control = new ControlOfVoice(RobotUtil.gearsFromRobotList([robot,robot2],Gear.class,NxtRobot.class))
         
     }    
    

@@ -7,12 +7,6 @@ import ch.aplu.nxtsim.Tools
 import synthesizer.Speaker
 
 /**
- * Created by IntelliJ IDEA.
- * User: boskyn9
- * Date: 02/12/11
- * Time: 23:48
- * To change this template use File | Settings | File Templates.
- *
  * (one | two | three | four | five | six | seven | eight | nine | zero | oh | nil )
  *
  */
