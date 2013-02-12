@@ -8,82 +8,85 @@ import synthesizer.Speaker
  *
  */
 
-static def numberByName(number){
-    switch (number) {
+static def numberByName(String number){
+    number = number.replaceFirst("robot ","")
+    println "numero - $number"
+    
+    switch (number.trim()) {
     case ~/.*zero$/:
     case ~/.*oh$/:
-    case ~/.*nil$/: '0'
+    case ~/.*nil$/: return '0'
         break
-    case ~/.*one$/: '1'
+    case ~/.*one$/: return  '1'
         break
-    case ~/.*two$/: '2'
+    case ~/.*two$/: return  '2'
         break
-    case ~/.*three$/: '3'
+    case ~/.*three$/: return  '3'
         break
-    case ~/.*four$/: '4'
+    case ~/.*four$/: return  '4'
         break
-    case ~/.*five$/: '5'
+    case ~/.*five$/: return  '5'
         break
-    case ~/.*six$/: '6'
+    case ~/.*six$/: return  '6'
         break
-    case ~/.*seven$/: '7'
+    case ~/.*seven$/: return '7'
         break
-    case ~/.*eight$/: '8'
+    case ~/.*eight$/: return '8'
         break
-    case ~/.*nine$/: '9'
+    case ~/.*nine$/: return '9'
         break
-    default: null
+    default: return null
         break
     }
 }
 
 static def addAction(opt, actions) {
     Speaker speaker = Speaker.getInstance()
-    speaker.say("you said it: $opt ?", true)
-    
+    speaker.say("you said it: $opt ?", true)    
+    opt = opt.replaceFirst("action ","")
     switch (opt) {
     case ~/^forward.*$/:
-        println 'vou andar para frente'
+//        println 'vou andar para frente'
         actions.offer(Actions.FORWARD)
         break
     case ~/^back.*$/:
-        println 'vou andar para tras'
+//        println 'vou andar para tras'
         actions.offer(Actions.BACK)
         break
     case ~/^stop.*$/:
-        println 'vou parar'
+//        println 'vou parar'
         actions.offer(Actions.STOP)
         break
     case ~/^turn left.*$/:
-        println 'vou virar para esquerda'
+//        println 'vou virar para esquerda'
         actions.offer(Actions.TURN_LEFT)
         break
     case ~/^turn right.*$/:
-        println 'vou virar para a direita'
+//        println 'vou virar para a direita'
         actions.offer(Actions.TURN_RIGHT)
         break
     case ~/^left.*$/:
-        println 'esquerda'
+//        println 'esquerda'
         actions.offer(Actions.LEFT)
         break
     case ~/^right.*$/:
-        println 'direita'
+//        println 'direita'
         actions.offer(Actions.RIGHT)
         break
     case ~/^speed plus.*$/:
-        println 'aumentar velocidade'
+//        println 'aumentar velocidade'
         actions.offer(Actions.SPEED_PLUS)
         break
     case ~/^speed less.*$/:
-        println 'diminuir velocidade'
+//        println 'diminuir velocidade'
         actions.offer(Actions.SPEED_LESS)
         break
     case ~/^exit now.*$/:
-        println 'xau'
+//        println 'xau'
         actions.offer(Actions.EXIT_NOW)
         break
     case ~/^clear.*$/:
-        println 'limpar tarefas'
+//        println 'limpar tarefas'
         actions.offer(Actions.CLEAR)
         break
     default:
@@ -101,8 +104,8 @@ static def addAction(opt, actions) {
 
 static void commands (Actions actions, gears) {
     actions.toArray().each { action ->
-        gears.each(){ gear ->
-            make(action, (gear.values() as List))
+        gears.values().each(){ gear ->
+            make(action, gear)
         }
     }
 }

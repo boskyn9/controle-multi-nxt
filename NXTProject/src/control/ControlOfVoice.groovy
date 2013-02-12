@@ -44,25 +44,37 @@ class ControlOfVoice {
 
     def start(){
         speaker.say("The system began!",true)
-        println "gears - $gears"
-        
-        boolean toRobot = false
+//        println "gears - $gears"
         
         while (true) {            
             def result = recognizer.recognize()
             if (result) {
-                def resultText = result.getBestFinalResultNoFiller();
+                String resultText = result.getBestFinalResultNoFiller();
                 def listResutl = result.getResultTokens()
                 if (resultText) {
+                    def toRobot = false
                     println "Eu acho que é: $resultText \n"
                     
-                    //TODO identificar a palavra "robot". Se a palevra for dita, siginifica que a operação será direcionado
-                    if(resultText.equals("robot")){
+                    // limitação atual, o camando deve ser passado inteiramente
+                    def robotIndex
+                    def actionIndex
+                    
+                    if(resultText.startsWith("robot")){
+                        robotIndex = resultText.indexOf("robot")                        
+                    }
+                    if(resultText.contains("action")){
+                        actionIndex = resultText.indexOf("action")                        
+                    }
+                    
+                    if(robotIndex!=null && actionIndex!=null){
                         toRobot = true
-                        //gear = ControleUtil.getGearFromRobot(resultText); //TODO deve ser criado o método
-                    }else if(resultText.equals("action")){
-                        toRobot = false                        
-                    }else if(!toRobot){
+                        def indexRobotControl = ControleUtil.numberByName(resultText.substring(robotIndex,actionIndex))
+                        ControleUtil.addAction(resultText.substring(actionIndex), actions)                        
+                        println "opa $indexRobotControl -- ${gears.findAll{ it.key == indexRobotControl}}"                        
+                        ControleUtil.commands(actions, gears.findAll{ it.key == indexRobotControl})
+                    }
+                    
+                    if(!toRobot){                        
                         ControleUtil.addAction(resultText, actions)
                         ControleUtil.commands(actions, gears) // chamar a excução de tarefas
                     }
@@ -70,15 +82,15 @@ class ControlOfVoice {
                     // TODO identificar a palavra "action". Está será a finalização da declaração do robot e o incio das ações para o mesmo.
                     
                     
-                    println actions.retunrListActions() // exibir a lista de ações a serem executadas
+                    println actions.retunrListActions() // exibir a lista de ações a serem executadas                    
                     actions.clear() // limpando tarefas para recomeço.
                 } else
-                println "I did not hear what was said.\n ResultText $resultText"
-                //                  speaker.say('I did not hear what was said')
+                println "I did not hear what was said.\n ResultText $resultText"                
+//              speaker.say('I did not hear what was said')
             
             } else {
                 println "I did not hear what was said.\n Result $result"
-                //                speaker.say('I did not hear what was said')
+//              speaker.say('I did not hear what was said')
             }
         }
     }
