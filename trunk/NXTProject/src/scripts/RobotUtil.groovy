@@ -8,8 +8,9 @@ static def gearsFromRobotList(robots, clazzGear, clazzRobot) {
         
     def gears = [:]
         
-    robots.each(){ nxt ->            
-        gears."$nxt.btName" = (parts.get(nxt)as List).find { clazzGear.isInstance(it) }
+    robots.eachWithIndex(){ nxt, index  ->            
+//        gears."$nxt.btName" = (parts.get(nxt)as List).find { clazzGear.isInstance(it) }
+        gears."$index" = (parts.get(nxt)as List).find { clazzGear.isInstance(it) }
     }
         
     gears
