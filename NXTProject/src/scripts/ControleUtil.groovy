@@ -73,11 +73,11 @@ static def addAction(opt, actions) {
 //        println 'direita'
         actions.offer(Actions.RIGHT)
         break
-    case ~/^speed plus.*$/:
+    case ~/^more.*$/:
 //        println 'aumentar velocidade'
         actions.offer(Actions.SPEED_PLUS)
         break
-    case ~/^speed less.*$/:
+    case ~/^less.*$/:
 //        println 'diminuir velocidade'
         actions.offer(Actions.SPEED_LESS)
         break

@@ -15,14 +15,14 @@ class Main {
         
         Speaker speaker = Speaker.getInstance()
         
-        NxtRobot robot = new NxtRobot('bosco_nxt1')        
+        NxtRobot robot = new NxtRobot('nxt1')        
         Gear gear = new Gear()
         robot.addPart(gear)
 //        TouchSensor ts = new TouchSensor(SensorPort.S3)
 //        robot.addPart(ts);        
         
         
-        NxtRobot robot2 = new NxtRobot('bosco_nxt2')        
+        NxtRobot robot2 = new NxtRobot('nxt2')        
         Gear gear2 = new Gear()        
         robot2.addPart(gear2)
         
