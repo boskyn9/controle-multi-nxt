@@ -1,7 +1,6 @@
 package examples;// SimEx1.java
 // Motors
 
-import ch.aplu.jgamegrid.GameGrid;
 import ch.aplu.nxtsim.*;
 
 public class SimEx1
