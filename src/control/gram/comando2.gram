@@ -1,0 +1,7 @@
+#JSGF V1.0
+
+grammar comando2;
+
+public <comandoBasico> = <acao> ;
+
+<acao> = /2/ turn around;
