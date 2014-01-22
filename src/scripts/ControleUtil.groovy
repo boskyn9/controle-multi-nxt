@@ -1,5 +1,7 @@
 package scripts
 
+import ch.aplu.nxtsim.Gear
+//import ch.aplu.nxt.Gear
 import control.Actions
 import synthesizer.Speaker
 
@@ -95,7 +97,7 @@ static def addAction(opt, actions) {
 			actions.offer(number)
 			println number
 		} else {
-			speaker.say("I don't understand",true)
+			speaker.say("I don't understand", true)
 		}
 		break
 	}
@@ -109,7 +111,7 @@ static void commands (Actions actions, gears) {
 	}
 }
 
-private static void make(action, gear) {
+private static void make(action, Gear gear) {
 	if (action) {
 		println action
 		Thread.start {

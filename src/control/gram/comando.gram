@@ -2,8 +2,10 @@
 
 grammar comando;
 
-public <comandoBasico> = [ <robo> ] <acao> ;
+public <comando> = [ <robo> ] <acao> ;
+
 
 <robo> = robot <quantidade> action ;
-<acao> = /2/ back |/2/ forward |/1/ stop |/4/ turn ( left | right ) |/2/ less | /2/ more |/1/ exit now |/1/ clear |/1/ left |/1/ right;
+<acao> = /2/ back |/2/ forward |/1/ stop |/4/ turn ( left | right ) |/2/ less | /2/ more |/1/ exit now |/1/ clear |/1/ left |/1/ right | /2/ turn around;
 <quantidade> = ( one | two | three | four | five | six | seven | eight | nine | zero | oh | nil )* ;
+
