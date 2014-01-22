@@ -1,0 +1,6 @@
+comando_complexo: turn around
+simples:
+  - comando: left
+    duracao: 100
+  - comando: right
+    duracao: 100
