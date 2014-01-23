@@ -14,7 +14,7 @@ class Main {
 		def robots = []
 		try {
 			//YamlReader reader = new YamlReader(new FileReader("model/robot.yml"));
-			def reader = new YamlReader(new File("H:\\HD_WILLIAN\\workspace-sts\\NXTProject\\src\\control\\model\\robot.yaml").text)
+			def reader = new YamlReader(new File("src/control/model/robot.yaml").text)
 
 			while (true) {
 				Map objeto = (Map) reader.read()
@@ -33,7 +33,7 @@ class Main {
 						if (!RobotsControl.validatePorts(portTemp)) throw new Exception("Porta desconhecida")
 
 						int last_ = portTemp.lastIndexOf('_')
-						numberOrLetter = portTemp.substring(last_)
+						numberOrLetter = portTemp.substring(last_ + 1)
 					} catch(e) { println e.message }
 
 					def port = null
