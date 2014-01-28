@@ -75,7 +75,7 @@ class Main {
 							break
 						case RobotsControl.COLOR_SENSOR:
 							//def colorSensor = new ColorSensor(port as SensorPort)
-							robot.addPart(colorSensor)
+							//robot.addPart(colorSensor)
 							break
 						case RobotsControl.ULTRASONIC_SENSOR:
 							//def ultrasonicSensor = new UltrasonicSensor(port as SensorPort)
