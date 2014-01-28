@@ -1,6 +1,8 @@
 package scripts
 
 import ch.aplu.nxtsim.Gear
+import com.esotericsoftware.yamlbeans.YamlReader
+
 //import ch.aplu.nxt.Gear
 import control.Actions
 import synthesizer.Speaker
@@ -44,60 +46,78 @@ static def numberByName(String number) {
 
 static def addAction(opt, actions) {
 	Speaker speaker = Speaker.getInstance()
-	speaker.say("you said it: $opt ?", true)
+	//speaker.say("you said it: $opt ?", true)
 	opt = opt.replaceFirst("action ", "")
 	switch (opt) {
 	case ~/^forward.*$/:
-		println 'vou andar para frente'
+		//println 'vou andar para frente'
 		actions.offer(Actions.FORWARD)
 		break
 	case ~/^back.*$/:
-		println 'vou andar para tras'
+		//println 'vou andar para tras'
 		actions.offer(Actions.BACK)
 		break
 	case ~/^stop.*$/:
-		println 'vou parar'
+		//println 'vou parar'
 		actions.offer(Actions.STOP)
 		break
 	case ~/^turn left.*$/:
-		println 'vou virar para esquerda'
+		//println 'vou virar para esquerda'
 		actions.offer(Actions.TURN_LEFT)
 		break
 	case ~/^turn right.*$/:
-		println 'vou virar para a direita'
+		//println 'vou virar para a direita'
 		actions.offer(Actions.TURN_RIGHT)
 		break
 	case ~/^left.*$/:
-		println 'esquerda'
+		//println 'esquerda'
 		actions.offer(Actions.LEFT)
 		break
 	case ~/^right.*$/:
-		println 'direita'
+		//println 'direita'
 		actions.offer(Actions.RIGHT)
 		break
 	case ~/^more.*$/:
-		println 'aumentar velocidade'
+		//println 'aumentar velocidade'
 		actions.offer(Actions.SPEED_PLUS)
 		break
 	case ~/^less.*$/:
-		println 'diminuir velocidade'
+		//println 'diminuir velocidade'
 		actions.offer(Actions.SPEED_LESS)
 		break
 	case ~/^exit now.*$/:
-		println 'xau'
+		//println 'xau'
 		actions.offer(Actions.EXIT_NOW)
 		break
 	case ~/^clear.*$/:
-		println 'limpar tarefas'
+		//println 'limpar tarefas'
 		actions.offer(Actions.CLEAR)
 		break
 	default:
+		def reader = new YamlReader(new File("src/control/command/comandos.yaml").text)
+		boolean achou = false
+		while (true) {
+			Map command = (Map) reader.read()
+			if (command == null) break
+			println 'Complexo: ' + command.complexo
+			if (opt == command.complexo) {
+				achou = true
+				def listSimples = command.simples
+				listSimples?.comando?.each { simples ->
+					println 'Simples: ' + simples
+					addAction(simples, actions)
+				}
+			}
+		}
+		if (achou) {
+			break
+		}
 		def number = numberByName(opt)
 		if (number) {
 			actions.offer(number)
 			println number
 		} else {
-			speaker.say("I don't understand", true)
+			//speaker.say("I don't understand", true)
 		}
 		break
 	}
@@ -113,7 +133,7 @@ static void commands (Actions actions, gears) {
 
 private static void make(action, Gear gear) {
 	if (action) {
-		println action
+		println 'action:' + action
 		Thread.start {
 			switch (action) {
 			case Actions.BACK:

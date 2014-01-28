@@ -47,8 +47,9 @@ class ControlOfVoice {
 		while (true) {
 			def result = recognizer.recognize()
 			if (result) {
-				String resultText = result.getBestFinalResultNoFiller();
-				def listResutl = result.getResultTokens()
+				String resultText = result.getBestFinalResultNoFiller()
+				//def listResutl = result.getResultTokens()
+
 				if (resultText) {
 					def toRobot = false
 					println "Eu acho que é: $resultText \n"

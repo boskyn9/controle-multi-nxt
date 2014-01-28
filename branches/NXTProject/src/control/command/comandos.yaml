@@ -1,6 +1,7 @@
-comando_complexo: turn around
+complexo: turn around
 simples:
-  - comando: left
-    duracao: 100
-  - comando: right
-    duracao: 100
+  - comando: forward
+  - comando: back
+  - comando: forward
+  - comando: back
+  - comando: stop

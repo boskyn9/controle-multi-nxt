@@ -1,44 +1,50 @@
 name: NXT_1
 nxt_robot:
-  - type: motor
-    name: wheel_joint
-    port: PORT_A
-    desired_frequency: 20.0
-  - type: motor
-    name: wheel_joint
-    port: PORT_B
-    desired_frequency: 20.0
+  - type: gear
+    name: rodas
+# Pensar em como utilizar ainda o motor individualmente, no momento está sendo utilizado apenas a interface 'gear' que já cria os dois motores nas portas A e B
+#  - type: motor
+#    name: wheel_joint
+#    port: PORT_A
+#    desired_frequency: 20.0
+#  - type: motor
+#    name: wheel_joint
+#    port: PORT_B
+#    desired_frequency: 20.0
 
 ---
 name: NXT_2
 nxt_robot:
-  - type: motor #These lines creates a motor object with name R_motor_joint that are connected to PORT_A with a pulling frequency of 20Hz
-    name: wheel_joint
-    port: PORT_A
-    desired_frequency: 20.0
-  - type: motor
-    name: wheel_joint
-    port: PORT_B
-    desired_frequency: 20.0
+  - type: gear
+    names: rodas
+#  - type: motor #These lines creates a motor object with name R_motor_joint that are connected to PORT_A with a pulling frequency of 20Hz
+#    name: wheel_joint
+#    port: PORT_A
+#    desired_frequency: 20.0
+#  - type: motor
+#    name: wheel_joint
+#    port: PORT_B
+#    desired_frequency: 20.0
+
 #  - type: motor
 #    name: m_wheel_joint
 #    port: PORT_C
 #    desired_frequency: 1.0
-  - type: touch #These lines creates a touch object with name touch_sensor and a frame_id touch_link of that is connected to PORT_3. The pulling frequency in this case is 10Hz.
-    name: touch_sensor
-    frame_id: touch_link
-    port: PORT_3
-    desired_frequency: 10.0
-  - type: light #These lines creates a light object with name light_sensor and a frame_id light_link of that is connected to PORT_1 with the red LED on.
-    name: light_sensor
-    frame_id: light_link
-    port: PORT_1
-    color_r: 1.0
-    color_g: 0.0
-    color_b: 0.0
-    desired_frequency: 10.0
-  - type: sound #These lines creates a sound object with name sound_sensor and a frame_id sound_link of that is connected to PORT_2. The pulling frequency in this case is 10Hz.
-    name: sound_sensor
-    frame_id: sound_link
-    port: PORT_2
-    desired_frequency: 10.0
+#  - type: touch #These lines creates a touch object with name touch_sensor and a frame_id touch_link of that is connected to PORT_3. The pulling frequency in this case is 10Hz.
+#    name: touch_sensor
+#    frame_id: touch_link
+#    port: PORT_3
+#    desired_frequency: 10.0
+#  - type: light #These lines creates a light object with name light_sensor and a frame_id light_link of that is connected to PORT_1 with the red LED on.
+#    name: light_sensor
+#    frame_id: light_link
+#    port: PORT_1
+#    color_r: 1.0
+#    color_g: 0.0
+#    color_b: 0.0
+#    desired_frequency: 10.0
+#  - type: sound #These lines creates a sound object with name sound_sensor and a frame_id sound_link of that is connected to PORT_2. The pulling frequency in this case is 10Hz.
+#    name: sound_sensor
+#    frame_id: sound_link
+#    port: PORT_2
+#    desired_frequency: 10.0

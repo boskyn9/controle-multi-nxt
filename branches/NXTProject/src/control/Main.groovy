@@ -74,16 +74,16 @@ class Main {
 							robot.addPart(touchSensor)
 							break
 						case RobotsControl.COLOR_SENSOR:
-							/*def colorSensor = new ColorSensor(port as SensorPort)
-							robot.addPart(colorSensor)*/
+							//def colorSensor = new ColorSensor(port as SensorPort)
+							robot.addPart(colorSensor)
 							break
 						case RobotsControl.ULTRASONIC_SENSOR:
-							/*def ultrasonicSensor = new UltrasonicSensor(port as SensorPort)
-							robot.addPart(ultrasonicSensor)*/
+							//def ultrasonicSensor = new UltrasonicSensor(port as SensorPort)
+							//robot.addPart(ultrasonicSensor)
 							break
 						case RobotsControl.GYRO_SENSOR://nao suportado no simulador
-							/*def gyroSensor = new GyroSensor(port as SensorPort)
-							robot.addPart(gyroSensor)*/
+							//def gyroSensor = new GyroSensor(port as SensorPort)
+							//robot.addPart(gyroSensor)
 							break
 						default:
 							break
@@ -100,13 +100,16 @@ class Main {
 
 		/*NxtRobot robot = new NxtRobot('nxt1')
 		Gear gear = new Gear()
-		robot.addPart(gear)
-		TouchSensor ts = new TouchSensor(SensorPort.S3)
+		robot.addPart(gear)*/
+		/*TouchSensor ts = new TouchSensor(SensorPort.S3)
 		robot.addPart(ts)*/
 
 		/*NxtRobot robot2 = new NxtRobot('nxt2')
 		Gear gear2 = new Gear()
-		robot2.addPart(gear2)*/
+		robot2.addPart(gear2)
+
+		robots.add(robot)
+		robots.add(robot2)*/
 
 		/*NxtRobot robot3 = new NxtRobot('3')
 		Gear gear3 = new Gear()
