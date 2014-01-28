@@ -127,6 +127,7 @@ static void commands (Actions actions, gears) {
 	actions.toArray().each { action ->
 		gears.values().each(){ gear ->
 			make(action, gear)
+			Thread.sleep(1000L)
 		}
 	}
 }

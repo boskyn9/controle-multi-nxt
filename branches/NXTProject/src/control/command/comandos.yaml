@@ -1,7 +1,4 @@
 complexo: turn around
 simples:
-  - comando: forward
   - comando: back
   - comando: forward
-  - comando: back
-  - comando: stop
