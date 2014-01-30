@@ -17,7 +17,7 @@ import synthesizer.Speaker
 class ControlOfVoice {
 
 	Speaker speaker = Speaker.getInstance()
-	def actions = new Actions()
+	Actions actions = new Actions()
 	def gears = []
 	def recognizer
 
@@ -51,7 +51,6 @@ class ControlOfVoice {
 				//def listResutl = result.getResultTokens()
 
 				if (resultText) {
-					def toRobot = false
 					println "Eu acho que é: $resultText \n"
 
 					// limitação atual, o camando deve ser passado inteiramente
@@ -67,15 +66,15 @@ class ControlOfVoice {
 					}
 
 					if (robotIndex != null && actionIndex != null) {
-						toRobot = true
 						def indexRobotControl = ControleUtil.numberByName(resultText.substring(robotIndex, actionIndex))
-						ControleUtil.addAction(resultText.substring(actionIndex), actions)
+						resultText = resultText.substring(actionIndex)
+						def action = new Action(command: resultText)
+						ControleUtil.addAction(action, actions)
 						println "opa $indexRobotControl -- ${gears.findAll{ it.key == indexRobotControl}}"
 						ControleUtil.commands(actions, gears.findAll{ it.key == indexRobotControl})
-					}
-
-					if (!toRobot) {
-						ControleUtil.addAction(resultText, actions)
+					} else {
+						def action = new Action(command: resultText)
+						ControleUtil.addAction(action, actions)
 						ControleUtil.commands(actions, gears) // chamar a excução de tarefas
 					}
 

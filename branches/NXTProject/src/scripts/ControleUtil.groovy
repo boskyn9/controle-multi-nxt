@@ -2,6 +2,7 @@ package scripts
 
 import ch.aplu.nxtsim.Gear
 import com.esotericsoftware.yamlbeans.YamlReader
+import control.Action
 
 //import ch.aplu.nxt.Gear
 import control.Actions
@@ -21,17 +22,17 @@ static def numberByName(String number) {
 	case ~/.*oh$/:
 	case ~/.*nil$/: return '0'
 		break
-	case ~/.*one$/: return  '1'
+	case ~/.*one$/: return '1'
 		break
-	case ~/.*two$/: return  '2'
+	case ~/.*two$/: return '2'
 		break
-	case ~/.*three$/: return  '3'
+	case ~/.*three$/: return '3'
 		break
-	case ~/.*four$/: return  '4'
+	case ~/.*four$/: return '4'
 		break
-	case ~/.*five$/: return  '5'
+	case ~/.*five$/: return '5'
 		break
-	case ~/.*six$/: return  '6'
+	case ~/.*six$/: return '6'
 		break
 	case ~/.*seven$/: return '7'
 		break
@@ -44,54 +45,54 @@ static def numberByName(String number) {
 	}
 }
 
-static def addAction(opt, actions) {
-	Speaker speaker = Speaker.getInstance()
+static def addAction(Action action, Actions actions) {
+	//Speaker speaker = Speaker.getInstance()
 	//speaker.say("you said it: $opt ?", true)
-	opt = opt.replaceFirst("action ", "")
-	switch (opt) {
+	action.command = action?.command?.replaceFirst("action ", "")
+	switch (action.command) {
 	case ~/^forward.*$/:
 		//println 'vou andar para frente'
-		actions.offer(Actions.FORWARD)
+		action.command = Action.FORWARD
 		break
 	case ~/^back.*$/:
 		//println 'vou andar para tras'
-		actions.offer(Actions.BACK)
+		action.command = Action.BACK
 		break
 	case ~/^stop.*$/:
 		//println 'vou parar'
-		actions.offer(Actions.STOP)
+		action.command = Action.STOP
 		break
 	case ~/^turn left.*$/:
 		//println 'vou virar para esquerda'
-		actions.offer(Actions.TURN_LEFT)
+		action.command = Action.TURN_LEFT
 		break
 	case ~/^turn right.*$/:
 		//println 'vou virar para a direita'
-		actions.offer(Actions.TURN_RIGHT)
+		action.command = Action.TURN_RIGHT
 		break
 	case ~/^left.*$/:
 		//println 'esquerda'
-		actions.offer(Actions.LEFT)
+		action.command = Action.LEFT
 		break
 	case ~/^right.*$/:
 		//println 'direita'
-		actions.offer(Actions.RIGHT)
+		action.command = Action.RIGHT
 		break
 	case ~/^more.*$/:
 		//println 'aumentar velocidade'
-		actions.offer(Actions.SPEED_PLUS)
+		action.command = Action.SPEED_PLUS
 		break
 	case ~/^less.*$/:
 		//println 'diminuir velocidade'
-		actions.offer(Actions.SPEED_LESS)
+		action.command = Action.SPEED_LESS
 		break
 	case ~/^exit now.*$/:
 		//println 'xau'
-		actions.offer(Actions.EXIT_NOW)
+		action.command = Action.EXIT_NOW
 		break
 	case ~/^clear.*$/:
 		//println 'limpar tarefas'
-		actions.offer(Actions.CLEAR)
+		action.command = Action.CLEAR
 		break
 	default:
 		def reader = new YamlReader(new File("src/control/command/comandos.yaml").text)
@@ -99,79 +100,92 @@ static def addAction(opt, actions) {
 		while (true) {
 			Map command = (Map) reader.read()
 			if (command == null) break
-			println 'Complexo: ' + command.complexo
-			if (opt == command.complexo) {
+			//println 'Complexo: ' + command.complexo
+			if (action.command == command.complexo) {
 				achou = true
 				def listSimples = command.simples
-				listSimples?.comando?.each { simples ->
-					println 'Simples: ' + simples
-					addAction(simples, actions)
+				listSimples?.each { simples ->
+					//println 'Simples: ' + simples?.comando
+					//println 'Duração: ' + simples?.duracao
+					//println 'Raio: ' + simples?.raio
+					//println 'Velocidade: ' + simples?.velocidade //0..100
+					if (simples?.comando) {
+						action = new Action()
+						action.command = simples?.comando
+						action.setDuration(simples?.duracao ?: null)
+						action.setRadius(simples?.raio ?: null)
+						action.setSpeed(simples?.velocidade ?: null)
+						addAction(action, actions)
+					}
 				}
 			}
 		}
 		if (achou) {
-			break
+			return
 		}
-		def number = numberByName(opt)
+		def number = numberByName(action.command)
 		if (number) {
-			actions.offer(number)
+			//actions.offer(number)
 			println number
 		} else {
 			//speaker.say("I don't understand", true)
 		}
 		break
 	}
+
+	actions.offer(action)
 }
 
 static void commands (Actions actions, gears) {
 	actions.toArray().each { action ->
 		gears.values().each(){ gear ->
-			make(action, gear)
-			Thread.sleep(1000L)
+			make(action as Action, actions, gear)
 		}
+		Thread.sleep(1000L)
 	}
 }
 
-private static void make(action, Gear gear) {
+private static void make(Action action, Actions actions, gear) {
 	if (action) {
-		println 'action:' + action
+		println 'Action: ' + action
+		//pensar como colocar o action.speed... se vai no forward e backward apenas ou geral tipo fora do switch mesmo
 		Thread.start {
-			switch (action) {
-			case Actions.BACK:
-				gear.backward()
+			switch (action.command) {
+			case Action.BACK:
+				action.duration ? gear.backward(action.duration) : gear.backward()
 				break
-			case Actions.FORWARD:
-				gear.forward()
+			case Action.FORWARD:
+				action.duration ? gear.forward(action.duration) : gear.forward()
 				break
-			case Actions.STOP:
+			case Action.STOP:
 				gear.stop()
 				break
-			case Actions.TURN_LEFT:
-				gear.leftArc(0.45)
+			case Action.TURN_LEFT:
+				action.radius ? gear.leftArc(action.radius) : gear.leftArc(0.45)
 				break
-			case Actions.TURN_RIGHT:
-				gear.rightArc(0.45)
+			case Action.TURN_RIGHT:
+				action.radius ? gear.rightArc(action.radius) : gear.rightArc(0.45)
 				break
-			case Actions.LEFT:
-				gear.left(100)
+			case Action.LEFT:
+				action.duration ? gear.left(action.duration) : gear.left(100)
 				break
-			case Actions.RIGHT:
-				gear.right(100)
+			case Action.RIGHT:
+				action.duration ? gear.right(action.duration) : gear.right(100)
 				break
-			case Actions.SPEED_PLUS:
+			case Action.SPEED_PLUS:
 				println "velocidade $gear.speed"
 				gear.speed += 10
 				println "nova velocidade $gear.speed"
 				break
-			case Actions.SPEED_LESS:
+			case Action.SPEED_LESS:
 				println "velocidade $gear.speed"
 				gear.speed -= 10
 				println "nova velocidade $gear.speed"
 				break
-			case Actions.CLEAR:
-				action.clear.call()
+			case Action.CLEAR:
+				actions.clear()
 				break
-			case Actions.EXIT_NOW:
+			case Action.EXIT_NOW:
 				System.exit(0)
 				break
 			default:
