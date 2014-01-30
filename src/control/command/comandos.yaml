@@ -1,4 +1,7 @@
 complexo: turn around
 simples:
   - comando: back
+    duracao: 2000 #in ms
   - comando: forward
+    duracao: 3000 #in ms
+  - comando: stop

@@ -21,6 +21,10 @@ class Main {
 				if (objeto == null) break
 				NxtRobot robot = new NxtRobot(objeto.name)
 				def parts = objeto.nxt_robot
+				if (parts?.size() == 0) {
+					def gear = new Gear()
+					robot.addPart(gear)
+				}
 				parts.each { part ->
 					String partTemp = ""
 					String portTemp = ""
@@ -136,7 +140,12 @@ class Main {
 				println it
 			}
 		}*/
-
+		if (robots?.size() == 0) {
+			NxtRobot robot2 = new NxtRobot('NXT_Temp')
+			Gear gear2 = new Gear()
+			robot2.addPart(gear2)
+			robots.add(robot2)
+		}
 		def control = new ControlOfVoice(RobotUtil.gearsFromRobotList(robots, Gear.class, NxtRobot.class))
 
 	}
